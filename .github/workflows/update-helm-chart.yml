@@ -35,14 +35,19 @@ jobs:
         run: |
           helm repo index ./charts --url https://MAFKarlos.github.io/LiteLLM/charts
 
+      - name: Set Remote URL with Authentication
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/MAFKarlos/LiteLLM.git
+          git remote -v  # Verify the remote is correctly updated
+
       - name: Commit and Push Changes
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-          git config --global credential.helper store
-          echo "https://x-access-token:${GH_PAT}@github.com" > ~/.git-credentials
           git add .
           git commit -m "Auto-update LiteLLM Helm chart" || echo "No changes to commit"
           git push origin main
