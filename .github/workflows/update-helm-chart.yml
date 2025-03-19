@@ -2,7 +2,7 @@ name: Update LiteLLM Helm Chart
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0 * * *'  # Runs daily at midnight UTC
   workflow_dispatch:
 
 jobs:
@@ -33,6 +33,12 @@ jobs:
         run: |
           helm pull oci://ghcr.io/berriai/litellm-helm --untar --destination ./charts/litellm-helm
 
+      # 1) Package the chart into a .tgz file
+      - name: Package Helm Chart
+        run: |
+          helm package ./charts/litellm-helm --destination ./charts
+
+      # 2) Regenerate index.yaml to include the packaged chart
       - name: Update Helm Repository Index
         run: |
           helm repo index ./charts --url https://MAFKarlos.github.io/LiteLLM/charts
@@ -67,7 +73,7 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
 
-      - name: Authenticate and Push Changes
+      - name: Commit and Push Changes
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
         run: |
