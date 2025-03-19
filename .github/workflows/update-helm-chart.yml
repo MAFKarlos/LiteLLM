@@ -42,16 +42,32 @@ jobs:
           echo "Current Git remotes:"
           git remote -v
 
+      - name: Remove Any Existing Authentication
+        run: |
+          echo "Resetting Git authentication..."
+          git credential reject https://github.com/MAFKarlos/LiteLLM.git || true
+          rm -rf ~/.git-credentials || true
+          git config --global --unset credential.helper || true
+          git remote remove origin || true
+
       - name: Set Remote URL with Authentication
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
         run: |
           echo "Setting Git remote URL using GH_PAT..."
-          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/MAFKarlos/LiteLLM.git
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git remote add origin https://x-access-token:${GH_PAT}@github.com/MAFKarlos/LiteLLM.git
           echo "Updated Git remotes:"
           git remote -v
 
-      - name: Commit and Push Changes
+      - name: Set Git Identity for Commit
+        run: |
+          echo "Configuring Git identity for commit..."
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+      - name: Authenticate and Push Changes
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
         run: |
@@ -59,7 +75,7 @@ jobs:
           git config --global credential.helper store
           echo "https://x-access-token:${GH_PAT}@github.com" > ~/.git-credentials
           chmod 600 ~/.git-credentials
-          echo "Adding changes..."
+          echo "Adding and committing changes..."
           git add .
           git commit -m "Auto-update LiteLLM Helm chart" || echo "No changes to commit"
           echo "Pushing changes..."
@@ -70,7 +86,7 @@ jobs:
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
         run: |
-          echo "Push failed! Debugging..."
+          echo "Push failed! Running debug steps..."
           git remote -v
           git config --list
           curl -H "Authorization: token ${GH_PAT}" https://api.github.com/user
