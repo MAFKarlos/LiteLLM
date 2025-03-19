@@ -35,7 +35,7 @@ jobs:
         run: |
           helm repo index ./charts --url https://MAFKarlos.github.io/LiteLLM/charts
 
-      - name: **🔧 Remove Any Existing Authentication**
+      - name: Remove Any Existing Authentication
         run: |
           echo "🛑 Resetting Git authentication..."
           git credential reject https://github.com/MAFKarlos/LiteLLM.git || true
@@ -43,7 +43,7 @@ jobs:
           git config --global --unset credential.helper || true
           git remote remove origin || true
 
-      - name: **🔧 Set Remote URL with Authentication**
+      - name: Set Remote URL with Authentication
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
         run: |
@@ -57,7 +57,7 @@ jobs:
           echo "🔍 Checking updated Git remotes..."
           git remote -v  # Verify that the remote URL is set correctly
 
-      - name: **🔧 Authenticate and Push Changes**
+      - name: Authenticate and Push Changes
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
         run: |
@@ -73,7 +73,7 @@ jobs:
           echo "🚀 Pushing changes..."
           git push origin main --force || echo "❌ Git push failed"
 
-      - name: **🛠 Debug Git If Push Fails**
+      - name: Debug Git If Push Fails
         if: failure()
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
