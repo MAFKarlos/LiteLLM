@@ -3,7 +3,7 @@ name: Update LiteLLM Helm Chart
 on:
   schedule:
     - cron: '0 0 * * *'  # Runs daily at midnight UTC
-  workflow_dispatch:  # Allows manual triggering
+  workflow_dispatch:  # Allows manual trigger
 
 jobs:
   update-helm-chart:
@@ -12,20 +12,28 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Create Required Directories
+        run: |
+          mkdir -p charts/litellm-helm
+          mkdir -p .github/workflows
+
       - name: Install Helm
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
       - name: Log in to GitHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ghcr.io --username $GITHUB_ACTOR --password-stdin
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          echo "${GH_PAT}" | helm registry login ghcr.io --username $GITHUB_ACTOR --password-stdin
 
       - name: Pull Latest LiteLLM Helm Chart
         run: |
-          helm pull oci://ghcr.io/berriai/litellm-helm --untar --destination ./charts
+          helm pull oci://ghcr.io/berriai/litellm-helm --untar --destination ./charts/litellm-helm
 
       - name: Update Helm Repository Index
         run: |
-          helm repo index ./charts --url https://MAFKarlos.github.io/litellm/charts
+          helm repo index ./charts --url https://MAFKarlos.github.io/LiteLLM/charts
 
       - name: Commit and Push Changes
         env:
@@ -33,7 +41,16 @@ jobs:
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/MAFKarlos/LiteLLM.git
+          git config --global credential.helper store
+          echo "https://x-access-token:${GH_PAT}@github.com" > ~/.git-credentials
           git add .
           git commit -m "Auto-update LiteLLM Helm chart" || echo "No changes to commit"
           git push origin main
+
+      - name: Debug Authentication (If Push Fails)
+        if: failure()
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          git remote -v
+          curl -H "Authorization: token ${GH_PAT}" https://api.github.com/user
