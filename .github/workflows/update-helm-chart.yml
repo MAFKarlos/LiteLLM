@@ -35,16 +35,27 @@ jobs:
         run: |
           helm repo index ./charts --url https://MAFKarlos.github.io/LiteLLM/charts
 
-      - name: **Force Git to Use GH_PAT**
+      - name: Debug Remote URL Before Setting
+        run: |
+          echo "🔍 Checking current Git remotes before updating..."
+          git remote -v
+
+      - name: Force Git to Use GH_PAT for Authentication
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
         run: |
+          echo "🔧 Setting Git credentials..."
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           git config --global credential.helper store
           echo "https://x-access-token:${GH_PAT}@github.com" > ~/.git-credentials
+          chmod 600 ~/.git-credentials  # Secure the credentials file
+          
+          echo "🔧 Updating Git remote URL..."
           git remote set-url origin https://x-access-token:${GH_PAT}@github.com/MAFKarlos/LiteLLM.git
-          git remote -v  # Debug: Ensure the remote is correctly updated
+          
+          echo "🔍 Checking updated Git remotes..."
+          git remote -v  # Ensure remote is correctly updated
 
       - name: Commit and Push Changes
         env:
@@ -52,12 +63,15 @@ jobs:
         run: |
           git add .
           git commit -m "Auto-update LiteLLM Helm chart" || echo "No changes to commit"
-          git push origin main --force
+          echo "🚀 Pushing changes..."
+          git push origin main --force  # Use --force to ensure authentication is used
 
-      - name: Debug Authentication (If Push Fails)
+      - name: Final Debugging If Push Fails
         if: failure()
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
         run: |
+          echo "❌ Push failed! Running debug steps..."
           git remote -v
+          git config --list  # Print Git configuration
           curl -H "Authorization: token ${GH_PAT}" https://api.github.com/user
