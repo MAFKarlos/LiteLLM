@@ -2,8 +2,8 @@ name: Update LiteLLM Helm Chart
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Runs daily at midnight UTC
-  workflow_dispatch:  # Allows manual trigger
+    - cron: '0 0 * * *'
+  workflow_dispatch:
 
 jobs:
   update-helm-chart:
@@ -50,12 +50,10 @@ jobs:
           echo "🔧 Configuring Git..."
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-
           echo "🔧 Setting Git remote..."
           git remote add origin https://x-access-token:${GH_PAT}@github.com/MAFKarlos/LiteLLM.git
-          
           echo "🔍 Checking updated Git remotes..."
-          git remote -v  # Verify that the remote URL is set correctly
+          git remote -v
 
       - name: Authenticate and Push Changes
         env:
@@ -64,12 +62,10 @@ jobs:
           echo "🔑 Storing credentials..."
           git config --global credential.helper store
           echo "https://x-access-token:${GH_PAT}@github.com" > ~/.git-credentials
-          chmod 600 ~/.git-credentials  # Secure the credentials file
-
+          chmod 600 ~/.git-credentials
           echo "📦 Adding and committing changes..."
           git add .
           git commit -m "Auto-update LiteLLM Helm chart" || echo "⚠️ No changes to commit"
-          
           echo "🚀 Pushing changes..."
           git push origin main --force || echo "❌ Git push failed"
 
