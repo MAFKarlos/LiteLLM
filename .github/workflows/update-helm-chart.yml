@@ -29,9 +29,9 @@ jobs:
         run: |
           echo "${GH_PAT}" | helm registry login ghcr.io --username $GITHUB_ACTOR --password-stdin
 
-      - name: Pull Latest LiteLLM Helm Chart
+      - name: Pull Latest LiteLLM Helm Chart from OCI
         run: |
-          # Pull the OCI chart and untar it into a temporary folder
+          # Pull the OCI chart and untar it into charts/tmp
           helm pull oci://ghcr.io/berriai/litellm-helm --untar --destination charts/tmp
 
       - name: List Temporary Directory Structure
@@ -41,10 +41,9 @@ jobs:
 
       - name: Package Helm Chart
         run: |
-          # Assume that the temporary folder contains one chart directory;
-          # find that directory and package it.
-          CHART_DIR=$(find charts/tmp -mindepth 1 -maxdepth 1 -type d | head -n 1)
-          echo "Packaging chart from $CHART_DIR"
+          # Find the directory that contains Chart.yaml under charts/tmp
+          CHART_DIR=$(find charts/tmp -type f -name Chart.yaml -exec dirname {} \; | head -n 1)
+          echo "Packaging chart from directory: $CHART_DIR"
           helm package "$CHART_DIR" --destination charts
 
       - name: Clean Up Temporary Files
