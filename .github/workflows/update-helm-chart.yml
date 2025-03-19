@@ -28,11 +28,12 @@ jobs:
           helm repo index ./charts --url https://MAFKarlos.github.io/litellm/charts
 
       - name: Commit and Push Changes
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
+          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/your-username/litellm-helm-repo.git
           git add .
-          git commit -m "Auto-update LiteLLM Helm chart"
+          git commit -m "Auto-update LiteLLM Helm chart" || echo "No changes to commit"
           git push origin main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
