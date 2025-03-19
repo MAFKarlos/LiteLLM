@@ -33,7 +33,7 @@ jobs:
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/your-username/litellm-helm-repo.git
+          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/MAFKarlos/litellm.git
           git add .
           git commit -m "Auto-update LiteLLM Helm chart" || echo "No changes to commit"
           git push origin main
