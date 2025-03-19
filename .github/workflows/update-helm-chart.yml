@@ -2,7 +2,7 @@ name: Update LiteLLM Helm Chart
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Runs daily at midnight UTC
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 jobs:
@@ -16,12 +16,12 @@ jobs:
 
       - name: Create Required Directories
         run: |
-          mkdir -p charts/litellm-helm
-          mkdir -p .github/workflows
+          mkdir -p charts
+          mkdir -p charts/tmp
 
       - name: Install Helm
         run: |
-          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+          curl -s https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
       - name: Log in to GitHub Container Registry
         env:
@@ -31,17 +31,29 @@ jobs:
 
       - name: Pull Latest LiteLLM Helm Chart
         run: |
-          helm pull oci://ghcr.io/berriai/litellm-helm --untar --destination ./charts/litellm-helm
+          # Pull the OCI chart and untar it into a temporary folder
+          helm pull oci://ghcr.io/berriai/litellm-helm --untar --destination charts/tmp
 
-      # 1) Package the chart into a .tgz file
+      - name: List Temporary Directory Structure
+        run: |
+          echo "Listing contents of charts/tmp:"
+          ls -laR charts/tmp
+
       - name: Package Helm Chart
         run: |
-          helm package ./charts/litellm-helm --destination ./charts
+          # Assume that the temporary folder contains one chart directory;
+          # find that directory and package it.
+          CHART_DIR=$(find charts/tmp -mindepth 1 -maxdepth 1 -type d | head -n 1)
+          echo "Packaging chart from $CHART_DIR"
+          helm package "$CHART_DIR" --destination charts
 
-      # 2) Regenerate index.yaml to include the packaged chart
+      - name: Clean Up Temporary Files
+        run: |
+          rm -rf charts/tmp
+
       - name: Update Helm Repository Index
         run: |
-          helm repo index ./charts --url https://MAFKarlos.github.io/LiteLLM/charts
+          helm repo index charts --url https://MAFKarlos.github.io/LiteLLM/charts
 
       - name: Debug Git Remote Before Configuring
         run: |
