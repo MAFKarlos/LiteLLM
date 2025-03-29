@@ -6,10 +6,10 @@ entries:
       licenses: Apache-2.0
     apiVersion: v2
     appVersion: 2.30.0
-    created: "2025-03-28T03:07:48.25116222Z"
+    created: "2025-03-29T03:03:54.56723008Z"
     description: A Library Helm Chart for grouping common logic between bitnami charts.
       This chart is not deployable by itself.
-    digest: 71570f0b2a3fbf03d11b19b6250eefdafea8320d22beb32884bbb81d56606b0a
+    digest: 4d06f07d9504aea2206ccbcbdc7416383b7f2cc10c92fc2712110e71016f0f81
     home: https://bitnami.com
     icon: https://dyltqmyl993wv.cloudfront.net/downloads/logos/bitnami-mark.png
     keywords:
@@ -31,7 +31,7 @@ entries:
   litellm-helm:
   - apiVersion: v2
     appVersion: v1.63.11-stable.patch1
-    created: "2025-03-28T03:07:48.272738478Z"
+    created: "2025-03-29T03:03:54.581969479Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -48,4 +48,4 @@ entries:
     urls:
     - https://MAFKarlos.github.io/LiteLLM/charts/litellm-helm-0.1.639.tgz
     version: 0.1.639
-generated: "2025-03-28T03:07:48.2503841Z"
+generated: "2025-03-29T03:03:54.565476555Z"
