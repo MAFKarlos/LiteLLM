@@ -49,23 +49,26 @@ jobs:
       - name: Extract Chart Name and Version
         id: chart_info
         run: |
-          # Find the directory that contains Chart.yaml
-          CHART_DIR=$(find charts/tmp -type f -name Chart.yaml -exec dirname {} \; | head -n 1)
+          # Try to select the correct Chart.yaml by narrowing down the search.
+          # This example assumes the desired Chart.yaml path contains "litellm-helm".
+          CHART_DIR=$(find charts/tmp -maxdepth 2 -type f -name Chart.yaml | grep 'litellm-helm/Chart.yaml' | head -n 1 | xargs dirname)
+          if [ -z "$CHART_DIR" ]; then
+            echo "Error: Could not find the root chart directory."
+            exit 1
+          fi
           echo "Found Chart.yaml in: $CHART_DIR"
-          # Extract name and version using yq
           CHART_NAME=$(yq e '.name' "$CHART_DIR/Chart.yaml")
           CHART_VERSION=$(yq e '.version' "$CHART_DIR/Chart.yaml")
           echo "Chart Name: $CHART_NAME"
           echo "Chart Version: $CHART_VERSION"
-          # Export values as outputs for later use
           echo "chart_dir=$CHART_DIR" >> $GITHUB_OUTPUT
           echo "chart_name=$CHART_NAME" >> $GITHUB_OUTPUT
           echo "chart_version=$CHART_VERSION" >> $GITHUB_OUTPUT
-
+      
       - name: Package Helm Chart
         run: |
-          # Package the chart from the directory found above.
           helm package "${{ steps.chart_info.outputs.chart_dir }}" --destination charts
+
 
       - name: Clean Up Temporary Files
         run: |
