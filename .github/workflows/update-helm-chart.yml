@@ -36,8 +36,8 @@ jobs:
 
       - name: Pull Latest LiteLLM Helm Chart from OCI
         run: |
-          # Pull the OCI chart and untar it into charts/tmp
-          helm pull oci://ghcr.io/berriai/litellm-helm --untar --destination charts/tmp
+          # Pull the OCI chart using the explicit tag 0.1.652 and untar it into charts/tmp
+          helm pull oci://ghcr.io/BerriAI/litellm-helm:0.1.652 --untar --destination charts/tmp
 
       - name: List Temporary Directory Structure
         run: |
