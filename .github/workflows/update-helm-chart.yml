@@ -23,6 +23,11 @@ jobs:
         run: |
           curl -s https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
+      - name: Install yq
+        run: |
+          sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq
+          sudo chmod +x /usr/bin/yq
+
       - name: Log in to GitHub Container Registry
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
@@ -39,10 +44,26 @@ jobs:
           echo "Listing contents of charts/tmp:"
           ls -laR charts/tmp
 
+      - name: Extract Chart Name and Version
+        id: chart_info
+        run: |
+          # Find the directory that contains Chart.yaml
+          CHART_DIR=$(find charts/tmp -type f -name Chart.yaml -exec dirname {} \; | head -n 1)
+          echo "Found Chart.yaml in: $CHART_DIR"
+          # Extract name and version using yq
+          CHART_NAME=$(yq e '.name' "$CHART_DIR/Chart.yaml")
+          CHART_VERSION=$(yq e '.version' "$CHART_DIR/Chart.yaml")
+          echo "Chart Name: $CHART_NAME"
+          echo "Chart Version: $CHART_VERSION"
+          # Export values as outputs for later use
+          echo "chart_dir=$CHART_DIR" >> $GITHUB_OUTPUT
+          echo "chart_name=$CHART_NAME" >> $GITHUB_OUTPUT
+          echo "chart_version=$CHART_VERSION" >> $GITHUB_OUTPUT
+
       - name: Package Helm Chart
         run: |
-          # Find the directory that contains Chart.yaml under charts/tmp
-          CHART_DIR=$(find charts/tmp -type f -name Chart.yaml -exec dirname {} \; | head -n 1)
+          # Use the directory found in the previous step
+          CHART_DIR="${{ steps.chart_info.outputs.chart_dir }}"
           echo "Packaging chart from directory: $CHART_DIR"
           helm package "$CHART_DIR" --destination charts
 
@@ -94,7 +115,7 @@ jobs:
           chmod 600 ~/.git-credentials
           echo "Adding and committing changes..."
           git add .
-          git commit -m "Auto-update LiteLLM Helm chart" || echo "No changes to commit"
+          git commit -m "Auto-update LiteLLM Helm chart to version ${{ steps.chart_info.outputs.chart_version }}" || echo "No changes to commit"
           echo "Pushing changes..."
           git push origin main --force
 
