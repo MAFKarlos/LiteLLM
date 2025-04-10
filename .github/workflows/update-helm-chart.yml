@@ -19,9 +19,11 @@ jobs:
           mkdir -p charts
           mkdir -p charts/tmp
 
-      - name: Install Helm
+      - name: Install Helm (v3.9.4)
         run: |
-          curl -s https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+          curl -sSL https://get.helm.sh/helm-v3.9.4-linux-amd64.tar.gz | tar xz
+          sudo mv linux-amd64/helm /usr/local/bin/helm
+          helm version
 
       - name: Install yq
         run: |
@@ -36,8 +38,8 @@ jobs:
 
       - name: Pull Latest LiteLLM Helm Chart from OCI
         run: |
-          # Pull the OCI chart using the explicit tag 0.1.652 and untar it into charts/tmp
-          helm pull oci://ghcr.io/BerriAI/litellm-helm:0.1.652 --untar --destination charts/tmp
+          # Pull the OCI chart without specifying a version to automatically get the latest.
+          helm pull oci://ghcr.io/berriai/litellm-helm --untar --destination charts/tmp
 
       - name: List Temporary Directory Structure
         run: |
@@ -62,10 +64,8 @@ jobs:
 
       - name: Package Helm Chart
         run: |
-          # Use the directory found in the previous step
-          CHART_DIR="${{ steps.chart_info.outputs.chart_dir }}"
-          echo "Packaging chart from directory: $CHART_DIR"
-          helm package "$CHART_DIR" --destination charts
+          # Package the chart from the directory found above.
+          helm package "${{ steps.chart_info.outputs.chart_dir }}" --destination charts
 
       - name: Clean Up Temporary Files
         run: |
