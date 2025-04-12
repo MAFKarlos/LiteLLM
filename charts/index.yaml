@@ -6,7 +6,7 @@ entries:
       licenses: Apache-2.0
     apiVersion: v2
     appVersion: 2.30.0
-    created: "2025-04-11T03:09:21.44212854Z"
+    created: "2025-04-12T03:06:15.774922453Z"
     description: A Library Helm Chart for grouping common logic between bitnami charts.
       This chart is not deployable by itself.
     digest: a35acbec5c81aaaddbb03392df93118c7297984c442679755a2fb15fac2ebcde
@@ -30,8 +30,27 @@ entries:
     version: 2.30.0
   litellm-helm:
   - apiVersion: v2
+    appVersion: v1.65.7-nightly
+    created: "2025-04-12T03:06:15.825648578Z"
+    dependencies:
+    - condition: db.deployStandalone
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: '>=13.3.0'
+    - condition: redis.enabled
+      name: redis
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: '>=18.0.0'
+    description: Call all LLM APIs using the OpenAI format
+    digest: e078fc2f4e97f0d06a2dc6c3162a48c094d8597ca8c15f1a8bfcbae96eb61ccc
+    name: litellm-helm
+    type: application
+    urls:
+    - https://MAFKarlos.github.io/LiteLLM/charts/litellm-helm-0.1.655.tgz
+    version: 0.1.655
+  - apiVersion: v2
     appVersion: v1.65.6-nightly
-    created: "2025-04-11T03:09:21.482986513Z"
+    created: "2025-04-12T03:06:15.81362669Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -50,7 +69,7 @@ entries:
     version: 0.1.654
   - apiVersion: v2
     appVersion: v1.65.4-stable
-    created: "2025-04-11T03:09:21.468514858Z"
+    created: "2025-04-12T03:06:15.800394895Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -69,7 +88,7 @@ entries:
     version: 0.1.652
   - apiVersion: v2
     appVersion: v1.63.11-stable.patch1
-    created: "2025-04-11T03:09:21.453878944Z"
+    created: "2025-04-12T03:06:15.787694939Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -86,4 +105,4 @@ entries:
     urls:
     - https://MAFKarlos.github.io/LiteLLM/charts/litellm-helm-0.1.639.tgz
     version: 0.1.639
-generated: "2025-04-11T03:09:21.441286449Z"
+generated: "2025-04-12T03:06:15.774005363Z"
