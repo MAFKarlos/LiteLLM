@@ -6,7 +6,7 @@ entries:
       licenses: Apache-2.0
     apiVersion: v2
     appVersion: 2.30.0
-    created: "2025-04-22T00:58:19.447963887Z"
+    created: "2025-04-23T00:58:48.194671738Z"
     description: A Library Helm Chart for grouping common logic between bitnami charts.
       This chart is not deployable by itself.
     digest: a35acbec5c81aaaddbb03392df93118c7297984c442679755a2fb15fac2ebcde
@@ -30,8 +30,27 @@ entries:
     version: 2.30.0
   litellm-helm:
   - apiVersion: v2
+    appVersion: v1.67.1-nightly
+    created: "2025-04-23T00:58:48.344466014Z"
+    dependencies:
+    - condition: db.deployStandalone
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: '>=13.3.0'
+    - condition: redis.enabled
+      name: redis
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: '>=18.0.0'
+    description: Call all LLM APIs using the OpenAI format
+    digest: 7f0ee83485b3cff55f19afff4e809842aa9214261578b403a264b69f2a066588
+    name: litellm-helm
+    type: application
+    urls:
+    - https://MAFKarlos.github.io/LiteLLM/charts/litellm-helm-0.1.664.tgz
+    version: 0.1.664
+  - apiVersion: v2
     appVersion: v1.67.0-nightly
-    created: "2025-04-22T00:58:19.590701821Z"
+    created: "2025-04-23T00:58:48.332039762Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -50,7 +69,7 @@ entries:
     version: 0.1.663
   - apiVersion: v2
     appVersion: v1.67.0-nightly
-    created: "2025-04-22T00:58:19.573050167Z"
+    created: "2025-04-23T00:58:48.310774336Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -69,7 +88,7 @@ entries:
     version: 0.1.662
   - apiVersion: v2
     appVersion: v1.66.3-nightly
-    created: "2025-04-22T00:58:19.561104962Z"
+    created: "2025-04-23T00:58:48.29820324Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -88,7 +107,7 @@ entries:
     version: 0.1.661
   - apiVersion: v2
     appVersion: v1.66.1-nightly
-    created: "2025-04-22T00:58:19.545235637Z"
+    created: "2025-04-23T00:58:48.277078836Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -107,7 +126,7 @@ entries:
     version: 0.1.659
   - apiVersion: v2
     appVersion: v1.66.0-stable
-    created: "2025-04-22T00:58:19.527516167Z"
+    created: "2025-04-23T00:58:48.265533078Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -126,7 +145,7 @@ entries:
     version: 0.1.658
   - apiVersion: v2
     appVersion: v1.65.8-nightly
-    created: "2025-04-22T00:58:19.515758201Z"
+    created: "2025-04-23T00:58:48.253117154Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -145,7 +164,7 @@ entries:
     version: 0.1.656
   - apiVersion: v2
     appVersion: v1.65.7-nightly
-    created: "2025-04-22T00:58:19.503158588Z"
+    created: "2025-04-23T00:58:48.241549096Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -164,7 +183,7 @@ entries:
     version: 0.1.655
   - apiVersion: v2
     appVersion: v1.65.6-nightly
-    created: "2025-04-22T00:58:19.484836341Z"
+    created: "2025-04-23T00:58:48.229659017Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -183,7 +202,7 @@ entries:
     version: 0.1.654
   - apiVersion: v2
     appVersion: v1.65.4-stable
-    created: "2025-04-22T00:58:19.471149296Z"
+    created: "2025-04-23T00:58:48.218317274Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -202,7 +221,7 @@ entries:
     version: 0.1.652
   - apiVersion: v2
     appVersion: v1.63.11-stable.patch1
-    created: "2025-04-22T00:58:19.45961012Z"
+    created: "2025-04-23T00:58:48.206604131Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -219,4 +238,4 @@ entries:
     urls:
     - https://MAFKarlos.github.io/LiteLLM/charts/litellm-helm-0.1.639.tgz
     version: 0.1.639
-generated: "2025-04-22T00:58:19.447148095Z"
+generated: "2025-04-23T00:58:48.193842271Z"
