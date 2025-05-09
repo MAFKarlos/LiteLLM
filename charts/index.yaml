@@ -6,7 +6,7 @@ entries:
       licenses: Apache-2.0
     apiVersion: v2
     appVersion: 2.30.0
-    created: "2025-05-08T01:00:30.769842965Z"
+    created: "2025-05-09T01:00:20.778660508Z"
     description: A Library Helm Chart for grouping common logic between bitnami charts.
       This chart is not deployable by itself.
     digest: a35acbec5c81aaaddbb03392df93118c7297984c442679755a2fb15fac2ebcde
@@ -31,7 +31,7 @@ entries:
   litellm-helm:
   - apiVersion: v2
     appVersion: v1.68.1-nightly
-    created: "2025-05-08T01:00:31.000053321Z"
+    created: "2025-05-09T01:00:20.996223473Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -42,7 +42,7 @@ entries:
       repository: oci://registry-1.docker.io/bitnamicharts
       version: '>=18.0.0'
     description: Call all LLM APIs using the OpenAI format
-    digest: 19f4afb9e75e9608e4a2b07961cf36d98c1d6eda539c67b7bd05596083de0192
+    digest: cf1fecc383a42b7ebd102d25c5dcdeb9ed76756cb0a6969366b16251acc492c5
     name: litellm-helm
     type: application
     urls:
@@ -50,7 +50,7 @@ entries:
     version: 0.1.673
   - apiVersion: v2
     appVersion: v1.68.0-nightly
-    created: "2025-05-08T01:00:30.988326924Z"
+    created: "2025-05-09T01:00:20.984246361Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -69,7 +69,7 @@ entries:
     version: 0.1.672
   - apiVersion: v2
     appVersion: v1.67.6-nightly
-    created: "2025-05-08T01:00:30.97644546Z"
+    created: "2025-05-09T01:00:20.972341255Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -88,7 +88,7 @@ entries:
     version: 0.1.670
   - apiVersion: v2
     appVersion: v1.67.5-nightly
-    created: "2025-05-08T01:00:30.964918427Z"
+    created: "2025-05-09T01:00:20.958971879Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -107,7 +107,7 @@ entries:
     version: 0.1.669
   - apiVersion: v2
     appVersion: v1.67.4-stable
-    created: "2025-05-08T01:00:30.953383737Z"
+    created: "2025-05-09T01:00:20.946898328Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -126,7 +126,7 @@ entries:
     version: 0.1.668
   - apiVersion: v2
     appVersion: v1.67.4-nightly
-    created: "2025-05-08T01:00:30.941827677Z"
+    created: "2025-05-09T01:00:20.934079999Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -145,7 +145,7 @@ entries:
     version: 0.1.667
   - apiVersion: v2
     appVersion: v1.67.2-nightly
-    created: "2025-05-08T01:00:30.929988905Z"
+    created: "2025-05-09T01:00:20.921225006Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -164,7 +164,7 @@ entries:
     version: 0.1.666
   - apiVersion: v2
     appVersion: v1.67.1-nightly
-    created: "2025-05-08T01:00:30.917838265Z"
+    created: "2025-05-09T01:00:20.909513354Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -183,7 +183,7 @@ entries:
     version: 0.1.664
   - apiVersion: v2
     appVersion: v1.67.0-nightly
-    created: "2025-05-08T01:00:30.905802731Z"
+    created: "2025-05-09T01:00:20.897743221Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -202,7 +202,7 @@ entries:
     version: 0.1.663
   - apiVersion: v2
     appVersion: v1.67.0-nightly
-    created: "2025-05-08T01:00:30.893147467Z"
+    created: "2025-05-09T01:00:20.885803981Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -221,7 +221,7 @@ entries:
     version: 0.1.662
   - apiVersion: v2
     appVersion: v1.66.3-nightly
-    created: "2025-05-08T01:00:30.880554312Z"
+    created: "2025-05-09T01:00:20.874109258Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -240,7 +240,7 @@ entries:
     version: 0.1.661
   - apiVersion: v2
     appVersion: v1.66.1-nightly
-    created: "2025-05-08T01:00:30.869068301Z"
+    created: "2025-05-09T01:00:20.862338737Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -259,7 +259,7 @@ entries:
     version: 0.1.659
   - apiVersion: v2
     appVersion: v1.66.0-stable
-    created: "2025-05-08T01:00:30.847556763Z"
+    created: "2025-05-09T01:00:20.850854268Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -278,7 +278,7 @@ entries:
     version: 0.1.658
   - apiVersion: v2
     appVersion: v1.65.8-nightly
-    created: "2025-05-08T01:00:30.835812849Z"
+    created: "2025-05-09T01:00:20.839440914Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -297,7 +297,7 @@ entries:
     version: 0.1.656
   - apiVersion: v2
     appVersion: v1.65.7-nightly
-    created: "2025-05-08T01:00:30.822431959Z"
+    created: "2025-05-09T01:00:20.827748529Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -316,7 +316,7 @@ entries:
     version: 0.1.655
   - apiVersion: v2
     appVersion: v1.65.6-nightly
-    created: "2025-05-08T01:00:30.804732735Z"
+    created: "2025-05-09T01:00:20.816056052Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -335,7 +335,7 @@ entries:
     version: 0.1.654
   - apiVersion: v2
     appVersion: v1.65.4-stable
-    created: "2025-05-08T01:00:30.793232734Z"
+    created: "2025-05-09T01:00:20.803000571Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -354,7 +354,7 @@ entries:
     version: 0.1.652
   - apiVersion: v2
     appVersion: v1.63.11-stable.patch1
-    created: "2025-05-08T01:00:30.781654648Z"
+    created: "2025-05-09T01:00:20.791256868Z"
     dependencies:
     - condition: db.deployStandalone
       name: postgresql
@@ -371,4 +371,4 @@ entries:
     urls:
     - https://MAFKarlos.github.io/LiteLLM/charts/litellm-helm-0.1.639.tgz
     version: 0.1.639
-generated: "2025-05-08T01:00:30.769021516Z"
+generated: "2025-05-09T01:00:20.777825603Z"
